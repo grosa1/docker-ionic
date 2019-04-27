@@ -96,6 +96,17 @@ RUN \
     npm 
 
 # -----------------------------------------------------------------------------
+# Install Global node modules
+# -----------------------------------------------------------------------------
+
+RUN \
+    npm install -g cordova && \
+    npm install -g ionic && \
+    npm install -g typescript && \
+    npm install -g gulp &&\
+    ${PACKAGE_MANAGER} cache clean --force
+
+# -----------------------------------------------------------------------------
 # Clean up
 # -----------------------------------------------------------------------------
 RUN \
@@ -145,19 +156,6 @@ RUN chown ${USER}:${USER} /start.sh && chmod 777 /start.sh
 # run as root
 # -----------------------------------------------------------------------------
 USER ${USER}
-
-
-# -----------------------------------------------------------------------------
-# Install Global node modules
-# -----------------------------------------------------------------------------
-
-RUN \
-    npm install -g cordova && \
-    npm install -g ionic@ && \
-    npm install -g typescript && \
-    npm install -g gulp &&\
-    ${PACKAGE_MANAGER} cache clean --force
-
 
 # -----------------------------------------------------------------------------
 # Create the image.config file for the container to check the build 
