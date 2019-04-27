@@ -98,8 +98,7 @@ ENV NPM_CONFIG_LOGLEVEL info
 RUN \
     apt-get update -qqy && apt-get install -qqy --allow-unauthenticated \
     nodejs \
-    npm \
-    yarn
+    npm 
 
 # -----------------------------------------------------------------------------
 # Clean up
