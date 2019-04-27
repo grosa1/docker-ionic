@@ -22,7 +22,8 @@ RUN \
           zip \
           libsass-dev \
           git \
-          sudo
+          sudo \
+          apt-utils
 
 
 # -----------------------------------------------------------------------------
@@ -83,12 +84,6 @@ RUN \
 # -----------------------------------------------------------------------------
 # Install Node, NPM, yarn
 # -----------------------------------------------------------------------------
-ARG NODE_VERSION
-ENV NODE_VERSION ${NODE_VERSION:-6.9.5} 
-
-ARG NPM_VERSION
-ENV NPM_VERSION ${NPM_VERSION:-5.3.0}
-
 ARG PACKAGE_MANAGER
 ENV PACKAGE_MANAGER ${PACKAGE_MANAGER:-npm}
 
@@ -156,32 +151,12 @@ USER ${USER}
 # Install Global node modules
 # -----------------------------------------------------------------------------
 
-ARG CORDOVA_VERSION
-ENV CORDOVA_VERSION ${CORDOVA_VERSION:-7.0.1}
-
-ARG IONIC_VERSION
-ENV IONIC_VERSION ${IONIC_VERSION:-3.12.0}
-
-ARG TYPESCRIPT_VERSION
-ENV TYPESCRIPT_VERSION ${TYPESCRIPT_VERSION:-2.3.4}
-
-ARG GULP_VERSION
-ENV GULP_VERSION ${GULP_VERSION}
-
 RUN \
-  if [ "${PACKAGE_MANAGER}" != "yarn" ]; then \
-    export PACKAGE_MANAGER="npm" && \
-    npm install -g cordova@"${CORDOVA_VERSION}" && \
-    if [ -n "${IONIC_VERSION}" ]; then npm install -g ionic@"${IONIC_VERSION}"; fi && \
-    if [ -n "${TYPESCRIPT_VERSION}" ]; then npm install -g typescript@"${TYPESCRIPT_VERSION}"; fi && \
-    if [ -n "${GULP_VERSION}" ]; then npm install -g gulp@"${GULP_VERSION}"; fi \
-  else \
-    yarn global add cordova@"${CORDOVA_VERSION}" && \
-    if [ -n "${IONIC_VERSION}" ]; then yarn global add ionic@"${IONIC_VERSION}"; fi && \
-    if [ -n "${TYPESCRIPT_VERSION}" ]; then yarn global add typescript@"${TYPESCRIPT_VERSION}"; fi && \
-    if [ -n "${GULP_VERSION}" ]; then yarn global add gulp@"${GULP_VERSION}"; fi \
-  fi && \
-  ${PACKAGE_MANAGER} cache clean --force
+    npm install -g cordova && \
+    npm install -g ionic@ && \
+    npm install -g typescript && \
+    npm install -g gulp &&\
+    ${PACKAGE_MANAGER} cache clean --force
 
 
 # -----------------------------------------------------------------------------
